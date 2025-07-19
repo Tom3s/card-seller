@@ -58,9 +58,37 @@ func generate_new_card() -> void:
 	var value: Card.CardValue = get_weighted_random_value(value_chances) as Card.CardValue
 	var suit: Card.CardSuit = get_weighted_random_value(suit_chances) as Card.CardSuit
 
-	main_card.set_values(value, suit)
+	var effect: Effect = effects.pick_random()
 
+	main_card.set_values(value, suit, effect)
 
+	apply_effects()
+
+func apply_effects() -> void:
+	var sell_multiplier: float = 1.0
+	var sell_increase: int = 0
+	var cost_multiplier: float = 1.0
+	var cost_decrease: int = 0
+	for effect in active_effects:
+		if !effect.is_card_eligible.call(main_card): continue
+		if effect.affects_sell_value:
+			sell_multiplier *= effect.sell_value_multiplier
+			sell_increase += effect.sell_value_increase
+		
+		if effect.affects_activate_cost:
+			cost_multiplier *= effect.activate_cost_multiplier
+			cost_decrease -= effect.activate_cost_decrease
+	
+	main_card.sell_value *= sell_multiplier
+	main_card.sell_value += sell_increase
+
+	main_card.update_sell_value_label()
+
+	# do it for ability cost too
+
+var active_effects: Array[Effect]
+
+var effects: Array[Effect]
 
 func _ready() -> void:
 	score_label.text = str(score)
@@ -68,18 +96,24 @@ func _ready() -> void:
 	sell_button.pressed.connect(on_sell)
 	activate_button.pressed.connect(on_activate)
 
+	effects = Effect.get_effect_list()
+
 	generate_new_card()
 
 func on_sell() -> void:
-	score += main_card.get_sell_value()
+	score += main_card.sell_value
 
 	score_label.text = str(score)
 
 	generate_new_card()
 
 func on_activate() -> void:
+	if score < main_card.get_activate_cost(): return
+
 	score -= main_card.get_activate_cost()
 
 	score_label.text = str(score)
+
+	active_effects.push_back(main_card.effect)
 
 	generate_new_card()

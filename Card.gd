@@ -7,6 +7,10 @@ extends Node2D
 
 @onready var sell_value_label: Label = %SellValueLabel
 
+@onready var ability_desc_label: Label = %AbilityDescLabel
+@onready var ability_cost_label: Label = %AbilityCostLabel
+
+
 enum CardValue {
 	ZERO,
 	ONE,
@@ -88,11 +92,16 @@ var suit: CardSuit = CardSuit.SPADES:
 			 
 		suit = new_value
 
+var effect: Effect
+
 func _ready() -> void:
 	suit = suit
 	face_value = face_value
 
+	sell_value = get_sell_value(face_value)
 	update_sell_value_label()
+
+var sell_value: int
 
 func get_sell_value(value: CardValue = face_value) -> int:
 	if value <= CardValue.TEN:
@@ -111,12 +120,22 @@ func get_sell_value(value: CardValue = face_value) -> int:
 
 func update_sell_value_label() -> void:
 	if sell_value_label != null:
-		sell_value_label.text = str(get_sell_value(face_value))
+		sell_value_label.text = str(sell_value)
 
 
-func set_values(new_face_value: CardValue, new_suit: CardSuit) -> void:
+func set_values(new_face_value: CardValue, new_suit: CardSuit, new_effect: Effect) -> void:
 	face_value = new_face_value
 	suit = new_suit
 
+	sell_value = get_sell_value()
+
+	effect = new_effect
+
+	if ability_desc_label != null:
+		ability_desc_label.text = effect.tooltip
+		ability_cost_label.text = str(effect.cost)
+
+
+
 func get_activate_cost() -> int:
-	return 100
+	return effect.cost
