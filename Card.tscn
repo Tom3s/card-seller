@@ -1,0 +1,178 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdlx7xwjovkbd"]
+
+[ext_resource type="Script" uid="uid://ce22lr0w2abvq" path="res://Card.gd" id="1_21rx5"]
+[ext_resource type="Shader" uid="uid://c88kinhy4lnap" path="res://Card.tres" id="1_dd2wi"]
+[ext_resource type="FontFile" uid="uid://c46dt4u8j01jo" path="res://CalSans-Regular.ttf" id="2_hael8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hael8"]
+shader = ExtResource("1_dd2wi")
+shader_parameter/bordercolor = Color(0.56, 0.0616, 0.0616, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_21rx5"]
+size = Vector2(256, 384)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hael8"]
+bg_color = Color(0, 0, 0, 0.0941176)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Card" type="Node2D"]
+rotation = 1.5708
+script = ExtResource("1_21rx5")
+face_value = 11
+
+[node name="Skew" type="Node2D" parent="."]
+rotation = -1.5708
+
+[node name="Sprite2D" type="Sprite2D" parent="Skew"]
+material = SubResource("ShaderMaterial_hael8")
+texture = SubResource("PlaceholderTexture2D_21rx5")
+
+[node name="CenterContainer" type="MarginContainer" parent="Skew"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -192.0
+offset_right = 128.0
+offset_bottom = 192.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Skew/CenterContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Skew/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -40
+
+[node name="ValueLabel" type="Label" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.18, 0.18, 1)
+theme_override_fonts/font = ExtResource("2_hael8")
+theme_override_font_sizes/font_size = 72
+text = "J"
+horizontal_alignment = 1
+
+[node name="SuitLabel" type="Label" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_fonts/font = ExtResource("2_hael8")
+theme_override_font_sizes/font_size = 72
+text = "♠"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = -40
+alignment = 1
+
+[node name="SellValueLabel" type="Label" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.18, 0.18, 1)
+theme_override_fonts/font = ExtResource("2_hael8")
+theme_override_font_sizes/font_size = 32
+text = "150"
+horizontal_alignment = 1
+
+[node name="Control3" type="Control" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Skew/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.18, 0.18, 1)
+theme_override_fonts/font = ExtResource("2_hael8")
+theme_override_font_sizes/font_size = 36
+text = "🪙"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="Skew/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_hael8")
+
+[node name="MarginContainer" type="MarginContainer" parent="Skew/CenterContainer/VBoxContainer/Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Skew/CenterContainer/VBoxContainer/Panel/MarginContainer"]
+custom_minimum_size = Vector2(0, 192)
+layout_mode = 2
+alignment = 1
+
+[node name="AbilityDescLabel" type="Label" parent="Skew/CenterContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(212, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.18, 0.18, 0.18, 1)
+theme_override_constants/line_spacing = -12
+theme_override_fonts/font = ExtResource("2_hael8")
+theme_override_font_sizes/font_size = 24
+text = "Cards with Heart suit will give double money on sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+justification_flags = 162
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Skew/CenterContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="AbilityCostLabel" type="Label" parent="Skew/CenterContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.18, 0.18, 0.18, 1)
+theme_override_constants/line_spacing = -12
+theme_override_fonts/font = ExtResource("2_hael8")
+theme_override_font_sizes/font_size = 24
+text = "300"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Label2" type="Label" parent="Skew/CenterContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.18, 0.18, 1)
+theme_override_fonts/font = ExtResource("2_hael8")
+theme_override_font_sizes/font_size = 36
+text = "🪙"
+horizontal_alignment = 1
+vertical_alignment = 1
